@@ -1,0 +1,63 @@
+{
+  "name": "web-wise",
+  "displayName": "WebWise",
+  "icon": "icon.png",
+  "description": "Check if web features are Baseline-compatible",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.74.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "webwise.checkFeature",
+        "title": "WebWise: Check Feature"
+      },
+      {
+        "command": "webwise.analyzeFile",
+        "title": "WebWise: Analyze File"
+      },
+      {
+        "command": "webwise.quickCheck",
+        "title": "WebWise: Quick Check Selected"
+      },
+      {
+        "command": "webwise.refreshCache",
+        "title": "WebWise: Refresh Baseline Data"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "webwise.quickCheck",
+        "key": "ctrl+shift+w",
+        "mac": "cmd+shift+w",
+        "when": "editorTextFocus"
+      }
+    ],
+    "codeActions": [
+      {
+        "kind": "quickfix",
+        "languages": ["css", "javascript", "typescript"]
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./"
+  },
+  "dependencies": {
+    "@types/vscode": "^1.104.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.5.2",
+    "@vscode/test-electron": "^2.5.2",
+    "esbuild": "^0.25.10",
+    "typescript": "^5.9.2"
+  }
+}

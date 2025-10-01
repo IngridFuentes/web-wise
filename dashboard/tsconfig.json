@@ -1,0 +1,8 @@
+{
+  "compilerOptions": {
+    "module": "esnext",          // Different!
+    "target": "es5",             // Different!
+    "lib": ["dom", "es6"],       // Includes DOM!
+    "jsx": "react-jsx"           // React-specific!
+  }
+}
