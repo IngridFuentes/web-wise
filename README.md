@@ -1,4 +1,7 @@
-WebWise - AI-Powered Baseline Compatibility Checker
+###WebWise 
+
+AI-Powered Baseline Compatibility Checker
+
 Overview
 WebWise is a Visual Studio Code extension that helps web developers instantly check whether CSS, JavaScript, and HTML features are baseline-compatible across major browsers. It integrates real-time diagnostics, AI-powered recommendations, and quick fixes directly into the developer workflow.
 How It Works
