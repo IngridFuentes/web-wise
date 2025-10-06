@@ -4,6 +4,10 @@
   "icon": "icon.png",
   "description": "Check if web features are Baseline-compatible",
   "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/IngridFuentes/web-wise"
+  },
   "engines": {
     "vscode": "^1.74.0"
   },

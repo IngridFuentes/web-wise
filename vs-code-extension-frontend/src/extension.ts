@@ -1,5 +1,8 @@
 import * as vscode from 'vscode';
 import * as http from 'http';
+import * as https from 'https';
+
+const API_URL = 'https://web-wise-8jc3.onrender.com';
 
 // Mapping of CSS/JS syntax patterns to web-features IDs
 const SYNTAX_TO_FEATURE: { [pattern: string]: { featureId: string, length: number } } = {
@@ -51,11 +54,15 @@ function makeRequest(url: string, options: any): Promise<any> {
     return new Promise((resolve, reject) => {
         const data = JSON.stringify(options.body);
         
-        const req = http.request('http://localhost:3000/api/check-baseline', { 
-            method: 'POST',
+        // Determine if URL is HTTP or HTTPS
+        const isHttps = url.startsWith('https://');
+        const requestModule = isHttps ? https : http;
+        
+        const req = requestModule.request(url, {
+            method: options.method || 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Content-Length': data.length
+                'Content-Length': Buffer.byteLength(data)
             }
         }, (res) => {
             let responseData = '';
@@ -78,6 +85,7 @@ function makeRequest(url: string, options: any): Promise<any> {
         req.end();
     });
 }
+
 
 function extractFeatureFromSelection(selectedText: string): string {
     const text = selectedText.toLowerCase().trim();
@@ -124,7 +132,7 @@ export function activate(context: vscode.ExtensionContext) {
             progress.report({ message: "Querying database..." });
             
             try {
-                const result = await makeRequest('http://localhost:3000/api/check-baseline', {
+                const result = await makeRequest(`${API_URL}/api/check-baseline`, {
                     body: { feature: feature.trim() }
                 });
                 
@@ -285,7 +293,7 @@ export function activate(context: vscode.ExtensionContext) {
         const results = [];
         for (const feature of features) {
             try {
-                const result = await makeRequest('http://localhost:3000/api/check-baseline', {
+                const result = await makeRequest(`${API_URL}/api/check-baseline`, {
                     body: { feature: feature.trim() }
                 });
                 results.push({ feature, result });
@@ -330,7 +338,7 @@ export function activate(context: vscode.ExtensionContext) {
         try {
             outputChannel.appendLine('Loading baseline data from backend...');
             
-            const req = http.request('http://localhost:3000/api/all-features', {
+            const req = https.request(`${API_URL}/api/all-features`, {
                 method: 'GET'
             }, (res) => {
                 let data = '';
@@ -465,7 +473,7 @@ export function activate(context: vscode.ExtensionContext) {
         'webwise.showAlternatives',
         async (feature: string) => {
             try {
-                const result = await makeRequest('http://localhost:3000/api/check-baseline', {
+                const result = await makeRequest(`${API_URL}/api/check-baseline`, {
                     body: { feature: feature }
                 });
                 
